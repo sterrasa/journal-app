@@ -36,7 +36,7 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
         for (const formField of Object.keys(formValidations)) {
             const [fn, errorMessage] = formValidations[formField];
             //create computed property
-            formCheckValues[`${formField}valid`] = fn(formState[formField]) ? null : errorMessage;
+            formCheckValues[`${formField}Valid`] = fn(formState[formField]) ? null : errorMessage;
         }
         setFormValidation(formCheckValues);
     }

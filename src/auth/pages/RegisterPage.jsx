@@ -1,36 +1,48 @@
+import { useState, useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks'
 import { isValidEmail as validEmail } from '../../utils/validators';
+import { startAutheticationWithEmail } from '../../store/auth/thunks';
 
+
+const formData = { userName: '', email: '', password: '' };
+
+// I can use react form to validate 
+const formValidations = {
+  userName: [(value) => value, 'UserName is mandatory'],
+  email: [(value) => validEmail(value), 'Email is not valid'],
+  password: [(value) => value.length >= 6, 'Password is not valid, should have more than 6 characters'],
+}
 
 export const RegisterPage = () => {
 
-  const formData = { userName: '', email: '', password: '' };
+  const dispatch = useDispatch();
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // I can use react form to validate 
-  const formValidations = {
-    userName: [(value) => value, 'UserName is mandatory'],
-    email: [(value) => validEmail(value), 'Email is not valid'],
-    password: [(value) => value.length >= 6, 'Password is not valid, should have more than 6 characters'],
-  }
+  const { status, errorMessage } = useSelector(state => state.auth);
+  const ischeckingAuthentication = useMemo(() => status === 'checking', [status]);
 
-  const { userName, email, password, onInputChange,
-    isValidUserName, isValidEmail, isValidPassword, isFormValid } = useForm(formData, formValidations)
+  const { formState, userName, email, password, onInputChange,
+    userNameValid, emailValid, passwordValid, isFormValid } = useForm(formData, formValidations);
 
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setFormSubmitted(true);
+
+    if (!isFormValid) return;
+    console.log(formState);
+    dispatch(startAutheticationWithEmail(formState))
+
   }
 
   return (
 
     <>
       <AuthLayout title="Create account">
-
-      <h1> valid Form: {isFormValid ? 'Valid': 'Not Valid'}</h1>
         <form onSubmit={onSubmit}>
           <Grid container>
 
@@ -42,8 +54,8 @@ export const RegisterPage = () => {
                 onChange={onInputChange}
                 placeholder='User Name'
                 name='userName'
-                error={!!isValidUserName}
-                helperText={isValidUserName}
+                error={!!userNameValid && formSubmitted}
+                helperText={userNameValid}
                 value={userName}
               />
             </Grid>
@@ -56,8 +68,8 @@ export const RegisterPage = () => {
                 placeholder='example@google.com'
                 fullWidth
                 name='email'
-                error={!!isValidEmail}
-                helperText={isValidEmail}
+                error={!!emailValid && formSubmitted}
+                helperText={emailValid}
                 value={email}
               />
             </Grid>
@@ -70,15 +82,28 @@ export const RegisterPage = () => {
                 placeholder='Password'
                 fullWidth
                 name='password'
-                error={!!isValidPassword}
-                helperText={isValidPassword}
+                error={!!passwordValid && formSubmitted}
+                helperText={passwordValid}
                 value={password}
               />
             </Grid>
 
-            <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
-              <Grid item xs={12}>
-                <Button variant='contained' fullWidth>
+            <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }}>
+              
+              <Grid 
+                item 
+                xs={ 12 }
+                display={ !!errorMessage ? '': 'none' }
+              >
+                <Alert severity='error'>{ errorMessage }</Alert>
+              </Grid>
+
+              <Grid item xs={ 12 }>
+                <Button 
+                  disabled={ ischeckingAuthentication }
+                  type="submit"
+                  variant='contained' 
+                  fullWidth>
                   Create Account
                 </Button>
               </Grid>
