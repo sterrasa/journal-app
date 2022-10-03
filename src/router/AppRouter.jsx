@@ -7,7 +7,6 @@ import { JournalRoutes } from '../journal/routes/JournalRoutes';
 export const AppRouter = () => {
 
   const { status } = useCheckAuth();
-  console.log(status)
 
   return (
     <Routes>
