@@ -14,8 +14,7 @@
 - JWT
 
 # Sign In
-Google Sign In API
-Firebase API
+Google Sign and User Email Authentication with Firebase API
 
 #start project yarn install + yarn run dev
 
