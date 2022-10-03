@@ -8,11 +8,11 @@ import { isValidEmail as validEmail } from '../../utils/validators';
 import { startAutheticationWithEmail } from '../../store/auth/thunks';
 
 
-const formData = { userName: '', email: '', password: '' };
+const formData = { displayName: '', email: '', password: '' };
 
 // I can use react form to validate 
 const formValidations = {
-  userName: [(value) => value, 'UserName is mandatory'],
+  displayName: [(value) => value, 'Display name is mandatory'],
   email: [(value) => validEmail(value), 'Email is not valid'],
   password: [(value) => value.length >= 6, 'Password is not valid, should have more than 6 characters'],
 }
@@ -25,8 +25,8 @@ export const RegisterPage = () => {
   const { status, errorMessage } = useSelector(state => state.auth);
   const ischeckingAuthentication = useMemo(() => status === 'checking', [status]);
 
-  const { formState, userName, email, password, onInputChange,
-    userNameValid, emailValid, passwordValid, isFormValid } = useForm(formData, formValidations);
+  const { formState, displayName, email, password, onInputChange,
+    displayNameValid, emailValid, passwordValid, isFormValid } = useForm(formData, formValidations);
 
 
   const onSubmit = (event) => {
@@ -34,9 +34,7 @@ export const RegisterPage = () => {
     setFormSubmitted(true);
 
     if (!isFormValid) return;
-    console.log(formState);
     dispatch(startAutheticationWithEmail(formState))
-
   }
 
   return (
@@ -48,15 +46,15 @@ export const RegisterPage = () => {
 
             <Grid item xs={12} sx={{ mt: 2 }}>
               <TextField
-                label="User Name"
+                label="Display Name"
                 type="text"
                 fullWidth
                 onChange={onInputChange}
-                placeholder='User Name'
-                name='userName'
-                error={!!userNameValid && formSubmitted}
-                helperText={userNameValid}
-                value={userName}
+                placeholder='Display Name'
+                name='displayName'
+                error={!!displayNameValid && formSubmitted}
+                helperText={displayNameValid}
+                value={displayName}
               />
             </Grid>
 
