@@ -1,4 +1,7 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+    createUserWithEmailAndPassword, GoogleAuthProvider,
+    signInWithPopup, updateProfile, signInWithEmailAndPassword
+} from 'firebase/auth';
 import { FirebaseAuth } from './config';
 
 
@@ -9,9 +12,9 @@ export const signInWithGoogle = async () => {
 
         const result = await signInWithPopup(FirebaseAuth, googleProvider);
         // const credentials = GoogleAuthProvider.credentialFromResult(result);
-        console.log( result.user);
+        console.log(result.user);
 
-        const { email, photoURL, displayName , uid} = result.user;
+        const { email, photoURL, displayName, uid } = result.user;
 
         return {
             success: true,
@@ -30,23 +33,22 @@ export const signInWithGoogle = async () => {
     }
 }
 
-export const registerUserWithEmail = async ({ email, password, userName }) => {
+export const registerUserWithEmail = async ({ email, password, displayName }) => {
     try {
 
         const result = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
-        
+
+        updateProfile(FirebaseAuth.currentUser, { displayName })
 
         const { uid, photoURL } = result.user;
 
-        console.log(result.user)
-
-        /*return {
+        return {
             success: true,
             email,
             photoURL,
             displayName,
             uid
-        }*/
+        }
 
 
     } catch (error) {
@@ -55,4 +57,28 @@ export const registerUserWithEmail = async ({ email, password, userName }) => {
             errorMessage: error.message
         }
     }
+}
+
+export const loginFirebaseUserAndPassword  = async ({ email, password }) => {
+    try {
+        const result = await signInWithEmailAndPassword(FirebaseAuth, email, password);
+
+        const { uid, photoURL, displayName } = result.user;
+
+        return {
+            success: true,
+            email,
+            photoURL,
+            displayName,
+            uid
+        }
+
+
+    } catch (error) {
+        return {
+            success: false,
+            errorMessage: error.message
+        }
+    }
+
 }
