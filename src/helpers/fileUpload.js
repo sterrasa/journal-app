@@ -3,7 +3,7 @@
 export const fileUpload = async( file ) => {
     if ( !file ) throw new Error('No File To upload');
 
-    const cloudUrl = 'https://api.cloudinary.com/v1_1/cursos-udemy/upload';
+    const cloudUrl = 'url';
 
     const formData = new FormData();
     formData.append('upload_preset','react-journal');
@@ -17,7 +17,7 @@ export const fileUpload = async( file ) => {
         });
 
 
-        if ( !resp.ok ) throw new Error('No posible upload the image')
+        if ( !resp.ok ) throw new Error('it was not posile to upload the image')
         const cloudResp = await resp.json();
 
         return cloudResp.secure_url;
