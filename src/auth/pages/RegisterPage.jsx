@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks'
-import { isValidEmail as validEmail } from '../../utils/validators';
+import { isValidEmail as validEmail } from '../../helpers/validators';
 import { startAutheticationWithEmail } from '../../store/auth/thunks';
 
 
