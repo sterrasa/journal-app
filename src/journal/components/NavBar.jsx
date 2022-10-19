@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material';
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material';
 import { startLogoutFirebase } from '../../store/auth/thunks';
+import { clearNotesLogout } from "../../store/journal";
 
 
 export const NavBar = ({ drawerWidth = 240 }) => {
@@ -9,7 +10,8 @@ export const NavBar = ({ drawerWidth = 240 }) => {
   const dispach = useDispatch();
 
   const onLogout = () => {
-   dispach(startLogoutFirebase()) 
+   dispach(startLogoutFirebase()); 
+   dispach(clearNotesLogout());
   }
 
   return (
