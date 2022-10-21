@@ -1,4 +1,4 @@
-# journal-app
+# Journal-app
 
 App in react and redux to create notes with integration in Firebase and persist the data in Firestore database 
 
@@ -19,7 +19,7 @@ To run the project you should setup .env variables- take a look in .emv.template
 # Sign In
 Google Sign and User Email Authentication with Firebase API
 
-# start project 
+# Start project 
 
 yarn install + yarn run dev
 
