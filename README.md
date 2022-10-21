@@ -13,8 +13,9 @@ App in react and redux to create notes with integration in Firebase and persist 
 - Cloudinary
 - Jest
 
+ 
+To run the project you should setup .env variables- take a look in .emv.template example
 
-- to run the project you should setup .env variables- take a look in .emv.template example
 # Sign In
 Google Sign and User Email Authentication with Firebase API
 
