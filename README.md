@@ -1,6 +1,6 @@
 # Journal-app
 
-App in react and redux to create notes with integration in Firebase and persist the data in Firestore database 
+App in react using redux to create notes with integration in Firebase and persist the data in Firestore database 
 
 # Technologies #
 
